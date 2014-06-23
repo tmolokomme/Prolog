@@ -20,6 +20,13 @@ owns(peter, dalmation) :- named(dalmation, domino).
 owns(john, boxer) :- named(boxer, daisy).
 owns(ander, labrador) :- named(labrador, penza).
 
+owns(waldo, X) :- uses(X, hunting).
+owns(waldo, X) :- named(Z, X), uses(Z, hunting).
+owns(sjanie, X) :- use(X, guide).
+owns(sjanie, labrador) :- named(Z, X), uses(Z, guide).
+owns(ander, X) :- use(X, guide).
+owns(ander, X) :- named(Z, X), use(Z, guide).
+
 %owns(waldo, beagle).
 %owns(sjanie, labrador).
 %owns(peter, dalmation).
@@ -35,6 +42,9 @@ type(penka, labrador).
 dogsize(mediumdog).
 dogsize(largedog).
 
+guide(labrador).
+hunting(beagle).
+
 mediumdog(beagle).
 mediumdog(beagle) :- hunting(beagle).
 %mediumdog(bassets).
@@ -45,6 +55,7 @@ use(X, hunting) :- mediumdog(X); type(X, Y), mediumdog(Y).
 use(X, guide) :- largedog(X); type(X, Y), largedog(Y).
 %use(DogType, hunting) :- mediumdog(Dogtype).
 use(bassets, hunting).
+use(beagle, hunting).
 use(mediumdog, hunting).
 use(largedog, guide).
 %use(DogType, guide) :- largedog(DogType).
