@@ -1,5 +1,6 @@
 
-% example, if L1 = [a, b, c] and L2 = [1, 2], then L = [a, 1, b, 2, c]. 
+% example, if L1 = [a, b, c] and L2 = [1, 2], 
+%then L = [a, 1, b, 2, c]. 
 
 interleave([], [], L).
 interleave([], [H2 | L2], L) :-

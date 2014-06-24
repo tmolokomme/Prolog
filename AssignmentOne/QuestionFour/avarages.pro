@@ -3,7 +3,7 @@
 % argument is a list of integers or reals, and the predicate must 
 % match the second argument with the average of the numbers in the list.
 
-sumx([Head|Tail], K, C) :-
+sumxss([Head|Tail], K, C) :-
 	Head < 0,
 	K is 0,
 	C is C + 1.

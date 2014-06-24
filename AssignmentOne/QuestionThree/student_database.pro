@@ -5,13 +5,6 @@ stud_record(4, "Jack Bloom", male, 10, [soccer, athletics]).
 stud_record(5, "Lesley Manale", female, 12, [rugby, athletics, hockey]).
 stud_record(6, "Ben Sefako", male, 11, [cricket, soccer, hockey]).
 
-who(X, N, FirstSport) :-
-	X = FirstSport, write(N).
-	
-who(X, N, [Head | Tail]) :- 
-	Ve = Head,
-	who(X, N, Ve), who(X, N, Tail), write(N).
-
 find_name([], S,N).
 find_name([H|T], S , Nme) :-
 	find_name(T, S, Nme),
@@ -19,13 +12,12 @@ find_name([H|T], S , Nme) :-
 	write(Nme),
 	nl.
 
-which_gender(Name) :- 
-	stud_record(ID, StudentName, Gender, Grade, [FirstSport | Sports]), N = StudentName, write(Gender).
-which_grade(Name) :-
-	stud_record(ID, StudentName, Gender, Grade, [FirstSport | Sports]), N = StudentName, write(Grade).
-which_sports(Name) :-
-	stud_record(ID, StudentName, Gender, Grade, [FirstSport | Sports]), N = StudentName, write(Sports).
-	%; S = FirstSport, write(StudentName)
+which_gender(N) :- 
+	stud_record(ID, Nme, Gen, Grd, [H | T]), N = Nme, write(Gen).
+which_grade(N) :-
+	stud_record(ID, Nme, Gen, Grd, [H | T]), N = Nme, write(Grd).
+which_sports(N) :-
+	stud_record(ID, Nme, Gen, Grd, [H | T]), N = Nme, write([H]), write(T), nl.
 sport_participants(S) :-
 	stud_record(ID, Nme, Gen, Grd, [H | T]), (find_name(T, S, Nme); S = H, write(Nme), nl), fail.
 

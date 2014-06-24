@@ -26,9 +26,9 @@ own(john, daisy).
 own(andre,penka). 
 
 owned_breed(B, O) :- named(B, N), own(O, N).
-owner_use(O, U) :- own(O, N), named(B, N), use(B, U).
+owners_dog_use(O, U) :- own(O, N), named(B, N), use(B, U).
 owns(O, B) :- owned_breed(B, O).
-owns_guide(O) :- own(O, N), named(B, N), use(B, guide).
+owns_guide_dog(O) :- own(O, N), named(B, N), use(B, guide).
 
 counts(B, C) :-
 	breed(X).

@@ -1,6 +1,7 @@
 
 %inner_prod(L1,L2,X) 
-% If we have two vectors [a1, a2,...,  an] and [b1, b2,..., bn] then
+% If we have two vectors [a1, a2,...,  an] 
+%and [b1, b2,..., bn] then
 %	X = a1×b1 + a2×b2 +... + an×bn.
 
 inner_prod([], [], L) :-
