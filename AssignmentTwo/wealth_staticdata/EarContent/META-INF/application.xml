@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+<application id="Application_ID" version="1.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
+
+	<display-name>wealth_staticdata</display-name>
+
+	<module id="wealth_staticdata_ejb_module">
+		<ejb>wealth_staticdata_ejb.jar</ejb>		
+	</module>
+</application>
+-->
+
+<!-- JEE 6 SPEC JBOSS DEPLOYMENT -->
+<application xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/application_6.xsd">
+	
+	<application-name>wealth_staticdata</application-name>
+	<initialize-in-order>true</initialize-in-order>
+	<!--  
+	<module id="wealth_master">
+		<java>wealth_master.jar</java>
+	</module>
+	-->
+		
+	<module id="wealth_security_ejb_module">
+		<ejb>wealth_staticdata_ejb.jar</ejb>
+	</module>
+	
+	<!--  	
+	<module>
+		<web>
+			<web-uri>myApp.war</web-uri>
+			<context-root>myApp</context-root>
+		</web>
+	</module>
+	-->
+</application>
+

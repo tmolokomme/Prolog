@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="wealth_staticdata" default="build" basedir=".">
+
+	<property environment="env" />
+	<property file="build.properties" />
+	
+	<property name="build_path" value="build" />
+	<property name="build_packaged_path" value="${build_path}/packaged" />
+	<property name="environment" value="local" />
+	
+	<path id="project.classpath">
+        <fileset dir="${project_classpath}">
+            <include name="**/*.jar" />
+        </fileset>
+		<fileset dir="${project_extended_classpath}">
+            <include name="**/*.jar" />
+        </fileset>
+        <!-- WEALTH CLIENT Libraries -->
+        <fileset dir="lib" includes="wealth_master_client.jar" />
+        <fileset dir="lib/master" includes="**/*.jar" />
+        <pathelement location="${project_classes}" />
+    </path>
+	
+	<!-- <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="project.classpath" /> -->
+	
+	<target name="clean">
+    	<!-- delete, create package directory -->
+        <delete dir="${project_build}" />
+        <mkdir dir="${project_build}" />
+        <mkdir dir="${project_packaged}" />
+    </target>
+	
+	<target name="build_ejb">
+        <mkdir dir="${project_classes}" />
+        <!-- create time stamp -->
+        <tstamp />
+        <javac classpathref="project.classpath" destdir="${project_classes}"
+               srcdir="${project_src}" debug="${debug_mode}">
+        </javac>
+    </target>
+	
+	<target name="package_ejb" depends="build_ejb">
+        <!-- jar ejb -->
+        <jar basedir="${project_classes}" excludes="**/*.properties,**/*.xml"
+            jarfile="${project_packaged}/${project_jar}">
+        </jar>
+
+        <!-- jar ejb client -->
+        <jar jarfile="${project_packaged}/${project_client_jar}">           
+            <fileset dir="${project_classes}" includes="**/client/**/*.class" />            
+        </jar>        
+    </target>       
+
+    <!-- <target name="package_app" depends="package_ejb, package_ws"> -->
+    <target name="package_app" depends="package_ejb">
+        <ear appxml="${project_xml}" destfile="${project_packaged}/${project_ear_name}">
+            <manifest>             
+                 <attribute name="Logging-Profile" value="wealth_static_app_profile" /> 
+			</manifest>            
+            <zipfileset dir="${project_meta_inf}" includes="application.xml, *-webservices.xml, *-structure.xml" prefix="META-INF" />
+            <zipfileset dir="${project_packaged}" includes="${project_jar}" />
+            <zipfileset dir="${project_classpath}/master" includes="wealth_master.jar" prefix="lib" />
+        </ear>
+
+        <copy file="${project_packaged}/${project_client_jar}" overwrite="true" todir="${project_packaged}" />
+        <!-- <copy file="${project_packaged}/${project_client_jar}" overwrite="true" todir="./" /> ${env.WEALTH_CONFIG_DIR}/lib/${environment} -->
+    </target>
+
+    <target name="build" depends="clean,package_app" />
+
+	<target name="generate-devdb">
+        <javac classpathref="project.classpath" destdir="${project_classes}" srcdir="${project_src}" />     
+        <hibernatetool destdir="${project_hibernate}">          
+            <annotationconfiguration configurationfile="${project_dev_hibernate_config}" />
+            <hbm2ddl export="true" drop="true" outputfilename="cscops_schema.ddl" />
+        </hibernatetool>
+    </target>
+	
+	<target name="run-test" >
+		<java 
+		  classname="com.wealth.staticdata.client.StaticDataLookupSessionTest" 
+		  fork="true" 
+		  classpathref="runclasspath">			
+		</java>
+	</target>
+
+</project>

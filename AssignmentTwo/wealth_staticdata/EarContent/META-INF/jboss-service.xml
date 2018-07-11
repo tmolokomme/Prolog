@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+	<!-- Hibernate Session Factory Managed Bean -->
+	<mbean code="com.wealth.persistence.jmx.Hibernate" name="jboss.jca:service=StaticDataHibSessionFactory">
+		<depends>jboss.jca:service=DataSourceBinding,name=wealth/ds/StaticData_DS</depends>
+		<attribute name="ApplicationName">wealth_staticdata</attribute>
+		<attribute name="DatasourceName">wealth/ds/StaticData_DS</attribute>		
+		<attribute name="Dialect">org.hibernate.dialect.SQLServerDialect</attribute>
+		<attribute name="SessionFactoryName">wealth_staticdata/hibernate/StaticDataHibSessionFactory</attribute>
+		<attribute name="CacheProviderClass">org.hibernate.cache.HashtableCacheProvider</attribute>		
+		<attribute name="ShowSqlEnabled">true</attribute>
+	</mbean>	
+</server>

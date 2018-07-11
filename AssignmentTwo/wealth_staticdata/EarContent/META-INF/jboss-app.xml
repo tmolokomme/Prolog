@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-app>
+	<module>
+		<service>META-INF/jboss-service.xml</service>
+	</module>
+	<loader-repository>
+        wealth_staticdata:archive=wealth_staticdata.ear
+    </loader-repository>
+</jboss-app>

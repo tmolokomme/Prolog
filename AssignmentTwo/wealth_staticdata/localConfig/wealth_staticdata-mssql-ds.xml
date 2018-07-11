@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  JBoss Server Configuration                                           -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<datasources>
+
+  <local-tx-datasource>
+    <jndi-name>wealth/ds/StaticData_DS</jndi-name>
+    <use-java-context>false</use-java-context>
+    <connection-url>jdbc:sqlserver://svjsqldev01:1433;DatabaseName=wealth_static</connection-url>
+    <driver-class>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver-class>
+    <user-name>appadmin</user-name>
+    <password>Password01</password>
+    <current_session_context_class>jta</current_session_context_class>
+    <transaction.factory_class>org.hibernate.transaction.JTATransactionFactory</transaction.factory_class>
+    <transaction.manager_lookup_class>org.hibernate.transaction.JBossTransactionManagerLookup</transaction.manager_lookup_class>
+    <jta.UserTransaction>java:comp/UserTransaction</jta.UserTransaction>
+    <transaction.flush_before_completion>true</transaction.flush_before_completion>
+    <transaction.auto_close_session>true</transaction.auto_close_session>
+    <metadata>
+        <type-mapping>MS SQLSERVER2005</type-mapping>
+    </metadata>
+  </local-tx-datasource>
+
+</datasources>

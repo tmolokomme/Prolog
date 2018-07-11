@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webservices xmlns="http://www.jboss.com/xml/ns/javaee">
+    <!-- Rest of your file here -->
+    <context-root>wealth_staticdata_ejb</context-root>
+</webservices>

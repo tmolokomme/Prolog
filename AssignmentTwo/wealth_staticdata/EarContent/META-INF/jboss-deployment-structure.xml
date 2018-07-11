@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.0">
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+	  <deployment>
+	      <dependencies>
+	          
+	        <module name="com.wealth.common.lib" slot="main" export="true"/>      
+	        <module name="org.antlr"/>
+	        
+	        <module name="org.javassist" slot="main" export="true"/>
+	        
+	        <module name="org.hibernate" slot="main" export="true"/>
+	       
+		    <module name="org.dom4j" />
+		    <module name="org.apache.log4j" />
+		    <module name="org.apache.commons.logging" />
+		    <module name="org.apache.commons.collections" />
+		    
+		    <module name="org.jboss.logmanager" />
+			<module name="org.jboss.logging" />
+	                
+			
+	      </dependencies>
+	  </deployment>
+	  <!-- 
+	  <sub-deployment name="wealth_security.war">
+	      <exclusions>
+	        <module name="javax.faces.api" slot="main"/>
+	        <module name="com.sun.jsf-impl" slot="main"/>
+	      </exclusions>
+	      <dependencies>
+	        <module name="javax.faces.api" slot="1.2"/>
+	        <module name="com.sun.jsf-impl" slot="1.2"/>
+	      </dependencies>
+	  </sub-deployment>
+	  -->
+	  
+</jboss-deployment-structure>
