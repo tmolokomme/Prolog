@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="wealth_master">
+
+	<property environment="env" />
+	<property file="build.properties" />
+	
+	<property name="environment" value="local" />
+
+	<path id="project.classpath">
+		<fileset dir="${project_classpath}">
+			<include name="**/*.jar" />
+		</fileset>
+		<!-- WEALTH CLIENT Libraries ${env.WEALTH_CONFIG_DIR}/lib/${environment}-->
+        <fileset dir="${project_base}/lib/"
+            includes="wealth_master_client.jar" />
+		<pathelement location="${project_classes}" />
+	</path>	
+	
+	<target name="clean">
+		<!-- delete, create package directory -->
+		<delete dir="${project_build}" />
+		<mkdir dir="${project_build}" />
+		<mkdir dir="${project_packaged}" />
+	</target>	
+
+	<target name="compile">
+		<mkdir dir="${project_classes}" />
+		<!-- create time stamp -->
+		<tstamp />
+		<javac classpathref="project.classpath"
+			destdir="${project_classes}" srcdir="${project_src}" debug="${debug_mode}">
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+		<!-- jar -->
+		<jar basedir="${project_classes}"
+			excludes="**/*.properties,**/*.xml"
+			jarfile="${project_packaged}/${project_jar}">
+			 <manifest>
+                 <attribute name="Build-Date" value="${DSTAMP}" />
+                 <attribute name="Build-Time" value="${TSTAMP}" />
+                 <attribute name="Dependencies" value="org.hibernate" />               
+                 <!-- <attribute name="Logging-Profile" value="wealth_valuations_app_profile" />  -->    
+			</manifest>			
+		</jar>
+	</target>
+
+	<target name="build" depends="clean,package" />	
+
+</project>

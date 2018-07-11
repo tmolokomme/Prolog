@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="wealth_master_client" xmlns:sonar="antlib:org.sonar.ant">
+
+	<property environment="env" />
+	<property file="build.properties" />
+	<property name="environment" value="local" />
+	<property name="module_name" value="wealth_master_client" />
+	<property name="major-version-number" value="2" />
+	<property name="minor-version-number" value="0" />
+	<property name="release-number" value="0" />
+	<property name="version-number" value="${major-version-number}.${minor-version-number}.${version-number}" />
+	<property name="project_jar" value="${module_name}-${version-number}.jar" />
+	
+	<tstamp>
+	    <format property="date" pattern="yyyy.MM.dd"/>
+		<format property="now" pattern="HH:MM"/>
+	</tstamp>
+	<property name="vendor" value="FNB" />
+
+
+	<path id="project.classpath">
+		<fileset dir="${project_classpath}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${project_classes}" />
+	</path>	
+	
+	<!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+	<!--  <property name="sonar.jdbc.url" value="jdbc:sqlserver://wlt-sdevsql08.fnb.co.za:1433;databaseName=wealth_sonarqube" />  -->
+	<property name="sonar.jdbc.url"  value="jdbc:jtds:sqlserver://wlt-sdevsql08.fnb.co.za/wealth_sonarqube" /> 
+	<property name="sonar.jdbc.username" value="sonar" />
+	<property name="sonar.jdbc.password" value="sonar" />
+	
+	<property name="sonar.host.url" value="http://wlt-sdevwpapp02:9000" />
+	
+	<!-- Define the SonarQube project properties -->
+	<property name="sonar.projectKey" value="za.co.fnb.leanding:wealth_master_client" />
+	<property name="sonar.projectName" value="Wealth_Master_Client" />
+	<property name="sonar.projectVersion" value="1.0" />
+	<property name="sonar.language" value="java" />
+	<property name="sonar.sources" value="${project_src}" /> <!-- src -->
+	<property name="sonar.binaries" value="${project_classes}" /> <!--  build/*.jar -->
+			
+	<!-- "scm:svn:http://qaadmin:T3st3r009@wlt-sdevwpapp02.fnb.co.za:8181/svn/mainrepo/wealth_master_client/trunk/wealth_master_client" -->
+	
+	<property name="sonar.scm.url" value="scm:svn:http://wlt-sdevwpapp02.fnb.co.za:8181/svn/mainrepo/wealth_master_client/trunk/wealth_master_client" />
+	<property name="sonar.scm.user.secured" value="qaadmin" />
+	<property name="sonar.scm.password.secured" value="T3st3r009" />
+	
+	<property name="sonar.dynamicAnalysis" value="true" />
+	<property name="sonar.core.codeCoveragePlugin" value="jacoco" />
+		
+	<property name="sonar.issuesReport.html.enable" value="true" />
+	<!-- <property name="sonar.issuesReport.html.location" value="../${project_packaged}" /> -->
+	<!-- <property name="sonar.analysis.mode" value="preview" /> -->
+	
+	<!-- sonar.scm.user.secured sonar.scm.password.secured sonar.login  sonar.password-->
+	<!-- sonar.issuesReport.console.enable sonar.issuesReport.html.name sonar.issuesReport.lightModeOnly-->
+	
+
+	<!-- Define the SonarQube target -->
+	<target name="sonar">
+	    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+	        <!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
+	        <classpath path="#{env.ANT_HOME}/lib/sonar-ant-task-*.jar" />
+	    </taskdef>
+	 
+	    <!-- Execute the SonarQube analysis -->
+	    <sonar:sonar />
+	 </target>
+	
+	<target name="clean">
+		<!-- delete, create package directory -->
+		<delete dir="${project_build}" />
+		<delete dir="${project_dist}" />
+		<mkdir dir="${project_build}" />
+		<mkdir dir="${project_packaged}" />
+		<mkdir dir="${project_dist}" />
+	</target>	
+
+	<target name="compile">
+		<mkdir dir="${project_classes}" />
+		<!-- create time stamp -->
+		<tstamp />
+		<javac classpathref="project.classpath" target="1.8" source="1.8"
+			destdir="${project_classes}" srcdir="${project_src}" debug="${debug_mode}">
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+		<!-- jar -->
+		<jar basedir="${project_classes}" jarfile="${project_packaged}/${project_jar}" >
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Built-On" value="${date}" />
+				<attribute name="Built-At" value="${now}" />
+        		<attribute name="Application-Title" value="${module_name}"/>
+        		<attribute name="Implementation-Vendor" value="${vendor}"/>
+        		<attribute name="Implementation-Vendor-Id" value="za.co.fnb.wealth"/>
+				<attribute name="Implementation-Version" value="${version-number}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="build" depends="clean,package">
+		<copy file="${project_packaged}/${project_jar}" overwrite="true" todir="${project_dist}" />
+	</target>
+	<target name="build-sonar" depends="build, sonar" />
+
+</project>
